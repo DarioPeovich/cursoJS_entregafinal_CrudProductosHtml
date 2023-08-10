@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "../js-55270"
+		},
+		{
+			"path": "../productos-abm"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"liveServer.settings.port": 5502,
+		"liveServer.settings.multiRootWorkspaceName": "js-55270"
+	}
+}
