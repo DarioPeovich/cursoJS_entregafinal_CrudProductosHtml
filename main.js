@@ -16,18 +16,21 @@ const btnSubmit = document.querySelector("#btnsubmit");
 //Fin Form Agregar/Modif
 const h2Element = document.querySelector("#h2Form");
 
-//Form Buscar x Descrip
+//Form Buscar
 const buscarProdDescrip = document.querySelector("#buscarProdDescrip");
-
-//Form Filtrar x otros
 const buscarProdPrecio1 = document.querySelector("#buscarProdPrecio1");
 const buscarProdPrecio2 = document.querySelector("#buscarProdPrecio2");
+const rubro_filtrar = document.querySelector("#rubro_filtrar");
+
 const btnFiltrar = document.querySelector("#btnFiltrar");
+const btnreset = document.querySelector("#btnreset");
+
 
 
 
 
 let modoEdicion = false;
+
 let productoEditar;   //Va a contener el Objeto Producto a editar
 let arrProductos = [];
 let arr_productosFiltrados = [];  //Se utiliza para las funciones de Filtrado
@@ -80,13 +83,22 @@ formAgregarModif.onsubmit = (event) => {
   if (modoEdicion) {
     let index = arrProductos.findIndex((producto) => producto.id === productoEditar.id);
     arrProductos[index].descripcion = prod_descripcion.value;
-    arrProductos[index].precioCosto = prod_preciocosto.value;
-    arrProductos[index].utilidad = prod_utilidad.value;
-    arrProductos[index].iva = prod_iva.value;
-    arrProductos[index].precioFinal = prod_preciofinal.value;
-    arrProductos[index].stock = prod_stock.value;
-    arrProductos[index].rubro = prod_rubro.value;
+    arrProductos[index].precioCosto = parseFloat(prod_preciocosto.value);
+    arrProductos[index].utilidad = parseFloat(prod_utilidad.value);
+    arrProductos[index].iva = parseFloat(prod_iva.value);
+    arrProductos[index].precioFinal = parseFloat(prod_preciofinal.value);
+    arrProductos[index].stock = parseFloat(prod_stock.value);
+    arrProductos[index].rubro = parseInt(prod_rubro.value);
 
+    //Aviso de edicion exitosa
+    Toastify({
+      text: "Producto editado exitosamente...",
+      className: "info",
+      style: {
+        background: "linear-gradient(to right, #00b09b, #96c93d)",
+      },
+      position: "center", // `left`, `center` or `right`
+    }).showToast();
     //Se restablecen la variable edicion y el texto del botom submit 
     modoEdicion = false;
     h2Element.innerText = "Agregar Producto"
@@ -95,7 +107,13 @@ formAgregarModif.onsubmit = (event) => {
     //arrProductos.push
 
     arrProductos.push(new Producto(prod_descripcion.value, prod_preciocosto.value, prod_utilidad.value, prod_iva.value, prod_rubro.value, prod_stock.value));
-
+    Toastify({
+      text: "Se agrego el producto en forma exitosa...",
+      className: "info",
+      style: {
+        background: "linear-gradient(to right, #00b09b, #96c93d)",
+      }
+    }).showToast();
   }
 
   console.log(...arrProductos);
@@ -114,67 +132,70 @@ function validarForm() {
   if (prod_descripcion.value === "" || prod_descripcion.value.length === 0) {
     bresultado = false;
   }
-  if (prod_preciocosto.value <= 0) {
+  if (parseFloat(prod_preciocosto.value) <= 0) {
     bresultado = false;
   }
-  if (prod_utilidad.value <= 0) {
+  if (parseFloat(prod_utilidad.value) <= 0) {
     bresultado = false;
   }
-  if (prod_iva.value <= 0) {
+  if (parseFloat(prod_iva.value) <= 0) {
     bresultado = false;
   }
-  if (prod_rubro.value <= 0 || isNaN(prod_rubro.value)) {
+  if (parseFloat(prod_rubro.value) <= 0 || isNaN(prod_rubro.value)) {
     bresultado = false;
   }
-  if (prod_stock.value < 0) {
-    alert("El Stock no puede ser negativo")
-    bresultado = false;
+
+  if ((parseFloat(prod_stock.value)) < 0) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Stock',
+      text: 'El Stock no puede ser negativo',
+    });
+    return false; //Si no retorno acá, el Swal del if (!bresultado), pisa este Swal.
   }
   if (!bresultado) {
-    alert("Por favor, complete todos los datos")
+    Swal.fire({
+      icon: 'error',
+      title: 'Datos incompletos',
+      text: 'Complete todos los campos correctamente...',
+    })
   }
   return (bresultado);
 }
 //FIN FUNCIONES UTILIZADAS EN EL FORM
 
 //FUNCIONES DE BUSQUEDA Y FILTRO PRODUCTOS. 
-buscarProdDescrip.oninput = (event) => {
-  //alert("Entre. event.target.value: " + event.target.value);
-  if (event.target.value === " ") {
-    mostrarProductos(arrProductos);
-  } else {
-    if (arr_productosFiltrados.length === 0) {
-      arr_productosFiltrados = arrProductos.filter((producto) =>
-        producto.descripcion.toLowerCase().includes(event.target.value)
-      );
-    } else {  // Si arr_productosFiltrados no está vacío, se realiza la nueva busqueda dentro de los filtrados
-      arr_productosFiltrados = arr_productosFiltrados.filter((producto) =>
-        producto.descripcion.toLowerCase().includes(event.target.value)
-      );
-    }
-    mostrarProductos(arr_productosFiltrados);
-  }
-}
 
+
+buscarProdDescrip.oninput = () => busquedaGrupal()
 btnFiltrar.onclick = () => busquedaGrupal()
+
+
 
 function busquedaGrupal() {
   //Se copia el array arrProductos para que los filtros no alteren la informacion
   arr_productosFiltrados = [...arrProductos];
   let auxPrecio1 = parseFloat(buscarProdPrecio1.value);
   let auxPrecio2 = parseFloat(buscarProdPrecio2.value);
+
+  if (buscarProdDescrip.value !== "") {
+    arr_productosFiltrados = arr_productosFiltrados.filter((producto) =>
+      producto.descripcion.toLowerCase().includes(buscarProdDescrip.value)
+    );
+  }
   if (isNaN(auxPrecio1)) {
     auxPrecio1 = 0;
   }
+
   if (isNaN(auxPrecio2)) {
     auxPrecio2 = 0;
   }
   if (buscarProdDescrip.value.length !== 0) {
     arr_productosFiltrados = arr_productosFiltrados.filter((producto) =>
-      producto.descripcion.toLowerCase().includes(event.target.value)
+      producto.descripcion.toLowerCase().includes(buscarProdDescrip.value)
     );
   }
- 
+
   //SE FILTRA EL RESULTADO POR EL RANGO DE PRECIOS
   if (auxPrecio1 > 0 && auxPrecio2 === 0) {
     arr_productosFiltrados = arr_productosFiltrados.filter((producto) =>
@@ -187,46 +208,51 @@ function busquedaGrupal() {
       producto.precioFinal <= parseFloat(buscarProdPrecio2.value)
     );
   }
+
   if (auxPrecio1 > 0 && auxPrecio2 > 0) {
     arr_productosFiltrados = arr_productosFiltrados.filter((producto) =>
       (producto.precioFinal >= parseFloat(buscarProdPrecio1.value) && producto.precioFinal <= parseFloat(buscarProdPrecio2.value))
     );
   }
 
-  mostrarProductos(arr_productosFiltrados);
+  //Se Filtra x Rubro
+  if (!isNaN(rubro_filtrar.value)) {
+    arr_productosFiltrados = arr_productosFiltrados.filter((producto) =>
+      producto.rubro === parseInt(rubro_filtrar.value)
+    );
+  }
 
-} //Fin Funcion busquedaGrupal
+  if (arr_productosFiltrados.length > 0) {
+    mostrarProductos();
+  } else {
+    contenedorProductos.innerHTML = "";   //contenedorProductos: div que contiene todos los subDiv de Productos
+  }
 
-//-------------
-// buscarProdPrecio1.oninput = (event) => {
-//   console.log("Entre. buscarProdPrecio1 event.target.value: " + event.target.value);
-//   //alert("Entre. buscarProdPrecio1 event.target.value: " + event.target.value);
-//   if (event.target.value === "") {
-//     mostrarProductos(arrProductos);
-//   } else {
-//     if (arr_productosFiltrados.length === 0) {
-//       //alert("Entre x arr_productosFiltrados.length === 0");
-//       arr_productosFiltrados = arrProductos.filter((producto) =>
-//         producto.precioFinal >= parseFloat(event.target.value)
-//       );
-//     } else {  // Si arr_productosFiltrados no está vacío, se realiza la nueva busqueda dentro de los filtrados
-//       //alert("Entre x arr_productosFiltrados.length <> 0");
-//       arr_productosFiltrados = arr_productosFiltrados.filter((producto) =>
-//         producto.precioFinal >= parseFloat(event.target.value)
-//       );
-//     }
-//     mostrarProductos(arr_productosFiltrados);
-//   }
-// }
-//------------------------
+
+
+
+} // Fin Funcion busquedaGrupal
+
+btnreset.onclick = () => {    //Boton de Filtros
+  arr_productosFiltrados = [];
+  //buscarProdDescrip.value = "";
+  mostrarProductos();
+}
+
 // **FIN** FUNCIONES DE BUSQUEDA Y FILTRO PRODUCTOS. 
 
 //INICIO FUNCIONES UTILIZADAS EN LOS DIV DE MOSTRAR PRODUCTOS
-const mostrarProductos = (par_arrProductos = arrProductos) => {
+const mostrarProductos = () => {
+  let arrMostrarProduc = [];
+  if (arr_productosFiltrados.length > 0) {
+    arrMostrarProduc = [...arr_productosFiltrados];
+  } else {
+    arrMostrarProduc = [...arrProductos];
+  }
   // Borramos el html para poner el array actualizado
   contenedorProductos.innerHTML = "";   //contenedorProductos: div que contiene todos los subDiv de Productos
 
-  par_arrProductos.forEach((producto, index) => {
+  arrMostrarProduc.forEach((producto, index) => {
     let divProductosContenedor = document.createElement("div");
     divProductosContenedor.classList.add("mt-0", "border", "border-2", "p-3", "shadow", "shadow-md");
     divProductosContenedor.innerHTML = `
@@ -241,13 +267,27 @@ const mostrarProductos = (par_arrProductos = arrProductos) => {
     divProductosContenedor.appendChild(btnEliminar);
 
     btnEliminar.onclick = () => {
-      let confirmar = confirm("¿Estas seguro que deseas eliminar el Producto?");
-      if (confirmar) {
-        eliminarProducto(index);
-        alert("Eliminación Exitosa");
-      } else {
-        alert("Eliminación cancelada");
-      }
+      Swal.fire({
+        title: '¿Está seguro de eliminar el Producto?',
+        text: "No se podra revertir el proceso",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, eliminarlo!',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          eliminarProducto(index);
+          Swal.fire({
+            icon: 'success',
+            title: 'Eliminado...',
+            text: 'El Producto ha sido eliminado de la base de datos.',
+          })
+
+        }
+      })
+
     };
     //Fin Boton Eliminar
 
@@ -257,7 +297,10 @@ const mostrarProductos = (par_arrProductos = arrProductos) => {
     btnEditar.innerText = "Editar";
     divProductosContenedor.appendChild(btnEditar);
 
-    btnEditar.onclick = () => editarProducto(index);
+    btnEditar.onclick = () => {
+      editarProducto(index);
+    }
+
     //fin boton Editar
 
     //Se agrega el Div a el HTML  
@@ -268,6 +311,11 @@ const mostrarProductos = (par_arrProductos = arrProductos) => {
 
 // Función de editar PRODUCTO del btnEditar de los Div de cada Producto
 const editarProducto = (index) => {
+  // let indexAux
+  //indexAux = arrProductos.findIndex((producto => producto.id === arrProductosInclude[indexInclude].id))
+  if (arr_productosFiltrados.length > 0) {
+    index = arrProductos.findIndex((producto => producto.id === arr_productosFiltrados[index].id))
+  }
 
   productoEditar = arrProductos[index];
 

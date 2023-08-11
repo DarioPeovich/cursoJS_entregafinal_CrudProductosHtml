@@ -10,6 +10,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous"> -->
     <!-- fin libreria BootStrap -->
+    <!-- Toastify -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
     <link rel="stylesheet" href="./styles.css" />
 </head>
 
@@ -28,7 +30,7 @@
             <div class="form-group row">
                 <label for="prod_id" class="col-sm-2 col-form-label">Producto Id.:</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="prod_id"
+                    <input type="text" readonly class="form-control" id="prod_id"
                         placeholder="El Id. se genera automáticamente al agregar">
                 </div>
             </div>
@@ -65,7 +67,7 @@
                 <label for="prod_preciofinal" class="col-sm-2 col-form-label">Precio Final:</label>
                 <div class="col-sm-10">
                     <input type="number" readonly class="form-control" id="prod_preciofinal"
-                        placeholder="El precio Final se calculara automaticamente cuando se agregue el Producto">
+                        placeholder="El precio Final se calculara automaticamente a medida que se completen los datos anteriores">
                 </div>
             </div>
 
@@ -78,7 +80,7 @@
             </div>
 
             <div class="form-group row">
-                <label class="col-sm-2 col-form-label" for="prod_rubro">Rubro Id.:</label>
+                <label class="col-sm-2 col-form-label" for="prod_rubro">Rubro:</label>
                 <div class="col-sm-10">
                     <select class="form-select" id="prod_rubro">
                         <option selected>Rubros...</option>
@@ -95,11 +97,55 @@
         </form>
     </div>
 
-    <!-- Form´s de busqueda y filtrado  -->
-    <form id="formBuscarDescrip" role="search">
+    <!-- Form de busqueda y filtrado  -->
+    <form id="formFiltrar" role="search">
+        <div class="container mt-2 border p-2">
+            <p class="bg-warning text-white ">Filtrar Productos. (Las búsquedas por distintos items se combinan)</p>
+            <div class="container mt-2 border shadow p-4" id="formBuscarPorDesc">
+                <div class="form-group row">
+                    <label for="buscarProdDescrip" class="col-sm-2 col-form-label">Por Descripción</label>
+                    <input id="buscarProdDescrip" class="form-control me-2" type="text"
+                        placeholder="Ingrese la descripcion del producto a buscar">
+                </div>
+            </div>
+            <div class="container mt-2 border shadow p-4" id="formBuscarPorPrecio">
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Entre Precios</label>
+                    <div class="col-sm-2">
+                        <input id="buscarProdPrecio1" step="any" class="form-control" type="number"
+                            placeholder="Precio mínimo">
+                    </div>
+                    <div class="col-sm-2">
+                        <input id="buscarProdPrecio2" step="any" class="form-control" type="number"
+                            placeholder="Precio máximo">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" for="rubro_filtrar">Rubro:</label>
+                    <div class="col-sm-10">
+                        <select class="form-select" id="rubro_filtrar">
+                            <option selected>Rubros...</option>
+                            <option value="1">Almacén</option>
+                            <option value="2">Carnicería</option>
+                            <option value="3">Panaderia</option>
+                            <option value="4">General</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end mt-2">
+                <button id="btnFiltrar" type="button" class="btn btn-primary m-2">Buscar</button>
+                <button id="btnreset" type="reset" class="btn btn-secondary m-2">Reset</button>
+            </div>
+        </div>
+    </form>
+
+
+    <!-- a continucacion form busqueda old -->
+    <!-- <form id="formBuscarDescrip" role="search">
 
         <div class="container mt-2 border p-2">
-            <p class="bg-warning text-white ">Filtrar Productos</p>
+            <p class="bg-warning text-white ">Filtrar Productos. (Las busquedas por distintos items se combinan)</p>
             <div class="container mt-2 border shadow p-4" id="formBuscarPorDesc">
 
                 <div class="form-group row">
@@ -108,26 +154,41 @@
                         placeholder="Buscar un producto">
                 </div>
             </div>
-        </form>
-        <form id="formFiltrarOtros" role="search">    
-            <div class="container mt-2 border shadow p-4" id="formBuscarPorPrecio">
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Por Precio</label>
-                    <div class="col-sm-2 col-form-label">
-                        <input id="buscarProdPrecio1" step="any" class="form-control" type="number" placeholder="Precio mínimo">
-                    </div>
-                    <div class="col-sm-2 col-form-label">
-                        <input id="buscarProdPrecio2" step="any" class="form-control" type="number" placeholder="Precio máximo">
-                    </div>
+     
+    </form>
+    <form id="formFiltrarOtros" role="search">
+        <div class="container mt-2 border shadow p-4" id="formBuscarPorPrecio">
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Entre Precios</label>
+                <div class="col-sm-2 col-form-label">
+                    <input id="buscarProdPrecio1" step="any" class="form-control" type="number"
+                        placeholder="Precio mínimo">
+                </div>
+                <p class="d-flex col-form-label">y</p> -->
+    <!-- <div class="col-sm-2 col-form-label">
+                    <input id="buscarProdPrecio2" step="any" class="form-control" type="number"
+                        placeholder="Precio máximo">
                 </div>
             </div>
-            <div class="d-flex justify-content-end mt-2">
-                <button id="btnFiltrar" type="button" class="btn btn-primary m-2">Buuscar</button>
-                <button id="btnreset" type="reset" class="btn btn-secondary m-2">Reset</button>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="rubro_filtrar">Rubro:</label>
+            <div class="col-sm-10">
+                <select class="form-select" id="rubro_filtrar">
+                    <option selected>Rubros...</option>
+                    <option value="1">Almacén</option>
+                    <option value="2">Carnicería</option>
+                    <option value="3">Panaderia</option>
+                    <option value="4">General</option>
+                </select>
             </div>
         </div>
+        <div class="d-flex justify-content-end mt-2">
+            <button id="btnFiltrar" type="button" class="btn btn-primary m-2">Buscar</button>
+            <button id="btnreset" type="reset" class="btn btn-secondary m-2">Reset</button>
+        </div>
 
-    </form>
+    </form> -->
 
     <!-- Div base utilizado para mostrar los Productos -->
     <div class="container mt-5 texto-div-productos" id="contenedorProductos">
@@ -140,6 +201,10 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- SweetAlert 2 -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Toastify -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <!-- mis script´s -->
     <script src="./clases.js"></script>
     <script src="./main.js"></script>

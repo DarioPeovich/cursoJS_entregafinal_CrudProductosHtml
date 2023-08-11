@@ -2,3 +2,11 @@
 .texto-div-productos {
   font-size: 0.7rem;
 }
+
+#prod_id {
+  background-color:aliceblue
+}
+
+#prod_preciofinal {
+  background-color: aquamarine;
+}
