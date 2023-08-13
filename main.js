@@ -127,62 +127,42 @@ formAgregarModif.onsubmit = (event) => {
 
 //Si bien esta funcion es utilizada solamente desde una sola funcion,  se realiza para obtener un codigo más ordenado
 function validarForm() {
-  let bresultado = true;
-
-  if (prod_descripcion.value === "" || prod_descripcion.value.length === 0) {
-    bresultado = false;
+  if (
+    (prod_descripcion.value.trim() === "" || isNaN(prod_descripcion.value)) ||
+    (parseFloat(prod_preciocosto.value) || isNaN(prod_preciocosto.value)) <= 0 ||
+    (parseFloat(prod_utilidad.value) || isNaN(prod_utilidad.value)) <= 0 ||
+    (parseFloat(prod_iva.value) || isNaN(prod_iva.value)) <= 0 ||
+    parseFloat(prod_rubro.value) <= 0 || isNaN(prod_rubro.value)
+  ) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Datos incompletos o incorrectos',
+      text: 'Complete todos los campos correctamente...',
+    });
+    return false;
   }
-  if (parseFloat(prod_preciocosto.value) <= 0) {
-    bresultado = false;
-  }
-  if (parseFloat(prod_utilidad.value) <= 0) {
-    bresultado = false;
-  }
-  if (parseFloat(prod_iva.value) <= 0) {
-    bresultado = false;
-  }
-  if (parseFloat(prod_rubro.value) <= 0 || isNaN(prod_rubro.value)) {
-    bresultado = false;
-  }
-
-  if ((parseFloat(prod_stock.value)) < 0) {
+  if (parseFloat(prod_stock.value) < 0) {
     Swal.fire({
       icon: 'error',
       title: 'Stock',
       text: 'El Stock no puede ser negativo',
     });
-    return false; //Si no retorno acá, el Swal del if (!bresultado), pisa este Swal.
+    return false;
   }
-  if (!bresultado) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Datos incompletos',
-      text: 'Complete todos los campos correctamente...',
-    })
-  }
-  return (bresultado);
-}
+  
+  return true;
+} //Fin validarForm
 //FIN FUNCIONES UTILIZADAS EN EL FORM
 
 //FUNCIONES DE BUSQUEDA Y FILTRO PRODUCTOS. 
-
-
 buscarProdDescrip.oninput = () => busquedaGrupal()
 btnFiltrar.onclick = () => busquedaGrupal()
-
-
 
 function busquedaGrupal() {
   //Se copia el array arrProductos para que los filtros no alteren la informacion
   arr_productosFiltrados = [...arrProductos];
   let auxPrecio1 = parseFloat(buscarProdPrecio1.value);
   let auxPrecio2 = parseFloat(buscarProdPrecio2.value);
-
-  if (buscarProdDescrip.value !== "") {
-    arr_productosFiltrados = arr_productosFiltrados.filter((producto) =>
-      producto.descripcion.toLowerCase().includes(buscarProdDescrip.value)
-    );
-  }
   if (isNaN(auxPrecio1)) {
     auxPrecio1 = 0;
   }
@@ -190,9 +170,17 @@ function busquedaGrupal() {
   if (isNaN(auxPrecio2)) {
     auxPrecio2 = 0;
   }
+
+  // if (buscarProdDescrip.value !== "") {
+  //   arr_productosFiltrados = arr_productosFiltrados.filter((producto) =>
+  //     producto.descripcion.toLowerCase().includes(buscarProdDescrip.value.toLowerCase())
+  //   );
+  // }
+  
+
   if (buscarProdDescrip.value.length !== 0) {
     arr_productosFiltrados = arr_productosFiltrados.filter((producto) =>
-      producto.descripcion.toLowerCase().includes(buscarProdDescrip.value)
+      producto.descripcion.toLowerCase().includes(buscarProdDescrip.value.toLowerCase())
     );
   }
 
