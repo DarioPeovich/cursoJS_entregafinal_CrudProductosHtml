@@ -159,8 +159,7 @@ buscarProdDescrip.oninput = () => busquedaGrupal()
 btnFiltrar.onclick = () => busquedaGrupal()
 
 function busquedaGrupal() {
-  //Se copia el array arrProductos para que los filtros no alteren la informacion
-  arr_productosFiltrados = [...arrProductos];
+
   let auxPrecio1 = parseFloat(buscarProdPrecio1.value);
   let auxPrecio2 = parseFloat(buscarProdPrecio2.value);
   if (isNaN(auxPrecio1)) {
@@ -177,6 +176,8 @@ function busquedaGrupal() {
   //   );
   // }
   
+    //Se copia el array arrProductos para que los filtros no alteren la informacion
+    arr_productosFiltrados = [...arrProductos];
 
   if (buscarProdDescrip.value.length !== 0) {
     arr_productosFiltrados = arr_productosFiltrados.filter((producto) =>
