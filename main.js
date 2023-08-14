@@ -128,11 +128,11 @@ formAgregarModif.onsubmit = (event) => {
 //Si bien esta funcion es utilizada solamente desde una sola funcion,  se realiza para obtener un codigo más ordenado
 function validarForm() {
   if (
-    (prod_descripcion.value.trim() === "" || isNaN(prod_descripcion.value)) ||
-    (parseFloat(prod_preciocosto.value) || isNaN(prod_preciocosto.value)) <= 0 ||
-    (parseFloat(prod_utilidad.value) || isNaN(prod_utilidad.value)) <= 0 ||
-    (parseFloat(prod_iva.value) || isNaN(prod_iva.value)) <= 0 ||
-    parseFloat(prod_rubro.value) <= 0 || isNaN(prod_rubro.value)
+    (prod_descripcion.value.trim() === "") ||
+    (parseFloat(prod_preciocosto.value) <= 0 || isNaN(parseFloat(prod_preciocosto.value))) ||
+    (parseFloat(prod_utilidad.value) <= 0 || isNaN(parseFloat(prod_utilidad.value))) ||
+    (parseFloat(prod_iva.value) < 0 || isNaN(parseFloat(prod_iva.value))) ||
+    (parseFloat(prod_rubro.value) <= 0 || isNaN(prod_rubro.value))
   ) {
     Swal.fire({
       icon: 'error',
@@ -149,7 +149,7 @@ function validarForm() {
     });
     return false;
   }
-  
+
   return true;
 } //Fin validarForm
 //FIN FUNCIONES UTILIZADAS EN EL FORM
@@ -162,22 +162,16 @@ function busquedaGrupal() {
 
   let auxPrecio1 = parseFloat(buscarProdPrecio1.value);
   let auxPrecio2 = parseFloat(buscarProdPrecio2.value);
+
   if (isNaN(auxPrecio1)) {
     auxPrecio1 = 0;
   }
-
   if (isNaN(auxPrecio2)) {
     auxPrecio2 = 0;
   }
 
-  // if (buscarProdDescrip.value !== "") {
-  //   arr_productosFiltrados = arr_productosFiltrados.filter((producto) =>
-  //     producto.descripcion.toLowerCase().includes(buscarProdDescrip.value.toLowerCase())
-  //   );
-  // }
-  
-    //Se copia el array arrProductos para que los filtros no alteren la informacion
-    arr_productosFiltrados = [...arrProductos];
+  //Se copia el array arrProductos para que los filtros no alteren la informacion
+  arr_productosFiltrados = [...arrProductos];
 
   if (buscarProdDescrip.value.length !== 0) {
     arr_productosFiltrados = arr_productosFiltrados.filter((producto) =>
