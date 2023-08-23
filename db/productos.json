@@ -1,0 +1,75 @@
+[
+  {
+    "id": "1iev5huuullk0xukk","descripcion": "Tomate en lata x 200 grs","precioCosto": 200,"utilidad": 40,"iva": 21,"rubro": 1,"stock": 2,"precioFinal": 338.8
+  },
+  {
+    "id": "7kn9qa0dpllk0xukk",
+    "descripcion": "Yerba Playadito 500 grs.",
+    "precioCosto": 700,
+    "utilidad": 40,
+    "iva": 21,
+    "rubro": 1,
+    "stock": 0,
+    "precioFinal": 1185.8
+  },
+  {
+    "id": "8vofhemjnllk0xukk",
+    "descripcion": "Pan Felipe x 1 kgs",
+    "precioCosto": 750,
+    "utilidad": 40,
+    "iva": 21,
+    "rubro": 3,
+    "stock": 3,
+    "precioFinal": 1270.5
+  },
+  {
+    "id": "4xeiy5aelllk0xukk",
+    "descripcion": "Pan frances x 1 kgs",
+    "precioCosto": 800,
+    "utilidad": 40,
+    "iva": 21,
+    "rubro": 3,
+    "stock": 1,
+    "precioFinal": 1355.2
+  },
+  {
+    "id": "5uj5s6o79llk0xukk",
+    "descripcion": "Corte Nalga x 1 kgs.",
+    "precioCosto": 2500,
+    "utilidad": 40,
+    "iva": 21,
+    "rubro": 2,
+    "stock": 40,
+    "precioFinal": 4235
+  },
+  {
+    "id": "lnnaqu1itllk0xukk",
+    "descripcion": "Corte Lomo x 1 kgs.",
+    "precioCosto": 3000,
+    "utilidad": 40,
+    "iva": 21,
+    "rubro": 2,
+    "stock": 5,
+    "precioFinal": 5082
+  },
+  {
+    "id": "r4chfzazzllk0xukk",
+    "descripcion": "Servilletas x 50 u.",
+    "precioCosto": 200,
+    "utilidad": 40,
+    "iva": 21,
+    "rubro": 4,
+    "stock": 10,
+    "precioFinal": 338.8
+  },
+  {
+    "id": "o0361skqmllk0xukk",
+    "descripcion": "Lampara Led 7w",
+    "precioCosto": 1500,
+    "utilidad": 40,
+    "iva": 21,
+    "rubro": 4,
+    "stock": 20,
+    "precioFinal": 2541
+  }
+]

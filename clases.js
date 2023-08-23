@@ -1,10 +1,11 @@
 
+    //precioVta: Se saco fuera de la clase para poder utilizarla desde otras funciones
     precioVta = (parPrecioCosto, parUtilidad, parIva) => {
         
         let auxPrecioFinal;
         auxPrecioFinal = parPrecioCosto * (1 + parUtilidad / 100);
         auxPrecioFinal = auxPrecioFinal * (1 + parIva / 100);
-        console.log("Entre a Func. precioVta");
+        auxPrecioFinal = parseFloat(auxPrecioFinal.toFixed(2));
         return (auxPrecioFinal)
     }
 
@@ -17,7 +18,6 @@ class Producto {
         this.iva = iva;
         this.rubro = rubro;
         this.stock = stock;
-        // this.precioFinal = this.precioVta();
         this.precioFinal = parseFloat(precioVta(this.precioCosto, this.utilidad, this.iva));
 
     }
@@ -35,8 +35,5 @@ class Producto {
     //     auxPrecioFinal = auxPrecioFinal * (1 + parIva / 100);
     //     return (auxPrecioFinal)
     // }
-
-
-
 }
 

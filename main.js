@@ -2,7 +2,7 @@
 //Elementos de Form Agregar/Modificar Producto
 const formAgregarModif = document.querySelector("#formAgregarModif");
 const contenedorProductos = document.querySelector("#contenedorProductos");
-const prod_id = document.querySelector("#prod_id");
+// const prod_id = document.querySelector("#prod_id");
 const prod_descripcion = document.querySelector("#prod_descripcion");
 const prod_preciocosto = document.querySelector("#prod_preciocosto");
 const prod_utilidad = document.querySelector("#prod_utilidad");
@@ -22,10 +22,9 @@ const buscarProdPrecio1 = document.querySelector("#buscarProdPrecio1");
 const buscarProdPrecio2 = document.querySelector("#buscarProdPrecio2");
 const rubro_filtrar = document.querySelector("#rubro_filtrar");
 
-const btnFiltrar = document.querySelector("#btnFiltrar");
+// const btnFiltrar = document.querySelector("#btnFiltrar");
 const btnreset = document.querySelector("#btnreset");
-
-
+const selectSort = document.querySelector("#selectSort");
 
 
 
@@ -37,17 +36,22 @@ let arr_productosFiltrados = [];  //Se utiliza para las funciones de Filtrado
 
 //Funcion para almacenar al array arrProductos en el localStore
 const guardarArrayLocalStore = () => {
-  localStorage.setItem("arrProductos", JSON.stringify(arrProductos));
+  console.log(arrProductos);
+  if (arrProductos.length > 0) {
+    localStorage.setItem("arrProductos", JSON.stringify(arrProductos));
+  }
+
 }
 
 //Funcion para levantar arrProductos del localStore
 const getArrayLocalStore = () => {
   arrProductos = localStorage.getItem("arrProductos");
-  //console.log("arrProductos:" + arrProductos);
+  // console.log("arrProductos (getArrayLocalStore):" + arrProductos);
   if (arrProductos === null || arrProductos === "") {
     return false;
   } else {
     arrProductos = JSON.parse(arrProductos);
+
     return true;
   }
 }
@@ -118,7 +122,7 @@ formAgregarModif.onsubmit = (event) => {
 
   console.log(...arrProductos);
 
-  formAgregarModif.reset();// Se Resetea los valores el formulario
+  formAgregarModif.reset();// Se Resetea los valores del formulario
   guardarArrayLocalStore();
   mostrarProductos();
 } //Fin onsubmit
@@ -154,9 +158,12 @@ function validarForm() {
 } //Fin validarForm
 //FIN FUNCIONES UTILIZADAS EN EL FORM
 
-//FUNCIONES DE BUSQUEDA Y FILTRO PRODUCTOS. 
-buscarProdDescrip.oninput = () => busquedaGrupal()
-btnFiltrar.onclick = () => busquedaGrupal()
+//FUNCIONES DE BUSQUEDA, FILTRAR Y ORDENAR PRODUCTOS  
+buscarProdDescrip.oninput = () => busquedaGrupal();
+buscarProdPrecio1.oninput = () => busquedaGrupal();
+buscarProdPrecio2.oninput = () => busquedaGrupal();
+rubro_filtrar.oninput = () => busquedaGrupal();
+// btnFiltrar.onclick = () => busquedaGrupal();
 
 function busquedaGrupal() {
 
@@ -211,9 +218,6 @@ function busquedaGrupal() {
     contenedorProductos.innerHTML = "";   //contenedorProductos: div que contiene todos los subDiv de Productos
   }
 
-
-
-
 } // Fin Funcion busquedaGrupal
 
 btnreset.onclick = () => {    //Boton de Filtros
@@ -221,7 +225,85 @@ btnreset.onclick = () => {    //Boton de Filtros
   //buscarProdDescrip.value = "";
   mostrarProductos();
 }
+selectSort.oninput = () => {
+  const opcionSort = parseInt(selectSort.value);
+  sortArray(arrProductos, opcionSort);
+  mostrarProductos();
+}
 
+
+// FUNCION ORDENAR
+function sortArray(par_arrProductos, par_OrdenId) {
+  let resultado = false;
+  if (par_OrdenId >= 1 && par_OrdenId <= 4) {
+    switch (par_OrdenId) {
+      case 1:
+        par_arrProductos.sort((a, b) => {
+          if (a.descripcion.toLowerCase() > b.descripcion.toLowerCase()) {
+
+            return 1;
+          }
+          if (a.descripcion.toLowerCase() < b.descripcion.toLowerCase()) {
+            return -1;
+          }
+          // a es igual a b
+          return 0;
+        })
+        resultado = true;
+        break;
+      case 2: //Ordenar x Menor Precio
+        par_arrProductos.sort((a, b) => {
+          if (a.precioFinal > b.precioFinal) {
+
+            return 1;
+          }
+          if (a.precioFinal < b.precioFinal) {
+            return -1;
+          }
+          // a es igual a b
+          return 0;
+        })
+        resultado = true;
+        break;
+      case 3: //Ordenar x Mayor Precio
+        par_arrProductos.sort((a, b) => {
+          if (a.precioFinal < b.precioFinal) {
+
+            return 1;
+          }
+          if (a.precioFinal > b.precioFinal) {
+            return -1;
+          }
+          // a es igual a b
+          return 0;
+        })
+        resultado = true;
+        break;
+
+      case 4: //Ordenar x Rubro
+        alert("Entre")
+        par_arrProductos.sort((a, b) => {
+          if (a.rubro > b.rubro) {
+
+            return 1;
+          }
+          if (a.rubro < b.rubro) {
+            return -1;
+          }
+          // a es igual a b
+          return 0;
+        })
+        resultado = true;
+        break;
+
+
+
+    }
+  } else {
+    alert("El ordenamiento del array está seteado en una opcion no contemplada.")
+    return false
+  }
+}
 // **FIN** FUNCIONES DE BUSQUEDA Y FILTRO PRODUCTOS. 
 
 //INICIO FUNCIONES UTILIZADAS EN LOS DIV DE MOSTRAR PRODUCTOS
@@ -302,7 +384,7 @@ const editarProducto = (index) => {
 
   productoEditar = arrProductos[index];
 
-  prod_id.value = productoEditar.id;
+  // prod_id.value = productoEditar.id;
   prod_descripcion.value = productoEditar.descripcion;
   prod_preciocosto.value = productoEditar.precioCosto;
   prod_utilidad.value = productoEditar.utilidad;
@@ -325,21 +407,24 @@ function eliminarProducto(indice) {
 }
 //FIN FUNCIONES UTILIZADAS EN LOS DIV DE MOSTRAR PRODUCTOS
 
-//INSTRUCCIONES QUE SE EJECUTAN AL INICIAR EL HTML
-const bArrProdVacio = !getArrayLocalStore();  //Levanta el array del localStore
-if (bArrProdVacio) {
-  arrProductos = [
-    new Producto("Tomate en lata x 200 grs", 200, 40, 21, 1, 2),
-    new Producto("Yerba Playadito 500 grs.", 700, 40, 21, 1, 0),
-    new Producto("Pan Felipe x 1 kgs", 750, 40, 21, 3, 3),
-    new Producto("Pan frances x 1 kgs", 800, 40, 21, 3, 1),
-    new Producto("Corte Nalga x 1 kgs.", 2500, 40, 21, 2, 40),
-    new Producto("Corte Lomo x 1 kgs.", 3000, 40, 21, 2, 5),
-    new Producto("Servilletas x 50 u.", 200, 40, 21, 4, 10),
-    new Producto("Lampara Led 7w", 1500, 40, 21, 4, 20)
-  ];
+//FUNCION PARA OBTENER DATOS DEL .JSON CON FETCH
+const getArchJsonProductos = async () => {
+  const resp = await fetch("./db/productos.json");
+  const data = await resp.json();
+  console.log(data);
+  arrProductos = data;
   guardarArrayLocalStore();
+  mostrarProductos();
+  return data;
 }
 
-mostrarProductos();
+//Codigo que ses ejecuta al iniciar el Html
+const bArrProdVacio = !getArrayLocalStore();  //Levanta el array del localStore
+
+if (bArrProdVacio) {
+  getArchJsonProductos()
+} else {
+  mostrarProductos();
+}
+
 
