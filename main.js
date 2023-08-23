@@ -281,7 +281,6 @@ function sortArray(par_arrProductos, par_OrdenId) {
         break;
 
       case 4: //Ordenar x Rubro
-        alert("Entre")
         par_arrProductos.sort((a, b) => {
           if (a.rubro > b.rubro) {
 
