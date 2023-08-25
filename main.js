@@ -161,16 +161,11 @@ rubro_filtrar.oninput = () => busquedaGrupal();
 // btnFiltrar.onclick = () => busquedaGrupal();
 
 function busquedaGrupal() {
-
   let auxPrecio1 = parseFloat(buscarProdPrecio1.value);
   let auxPrecio2 = parseFloat(buscarProdPrecio2.value);
-
-  if (isNaN(auxPrecio1)) {
-    auxPrecio1 = 0;
-  }
-  if (isNaN(auxPrecio2)) {
-    auxPrecio2 = 0;
-  }
+  isNaN(auxPrecio1) && (auxPrecio1 = 0);  //Operador Logico Simple
+  isNaN(auxPrecio2) && (auxPrecio2 = 0);  //Operador Logico Simple
+ 
 
   //Se copia el array arrProductos para que los filtros no alteren la informacion
   arr_productosFiltrados = [...arrProductos];
@@ -222,15 +217,11 @@ btnreset.onclick = () => {    //Boton de Filtros
 }
 
 selectSort.oninput = () => {
-  // const opcionSort = parseInt(selectSort.value);
-  //sortArray(arrProductos, opcionSort);
   mostrarProductos();
 }
 // FUNCION ORDENAR
 function sortArray(par_arrProductos, par_OrdenId) {
   let resultado = false;
-  //let arrMostrarProduc = [];
-
   if (par_OrdenId >= 1 && par_OrdenId <= 4) {
     switch (par_OrdenId) {
       case 1:
@@ -297,6 +288,12 @@ function sortArray(par_arrProductos, par_OrdenId) {
 }//Fin Funcion Ordenar
 // **FIN** FUNCIONES DE BUSQUEDA Y FILTRO PRODUCTOS. 
 
+function formatearNumero(numero) {
+
+  // Formatear con separadores de miles y 2 decimales
+  return numero.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  
+}
 //INICIO FUNCIONES UTILIZADAS EN LOS DIV DE MOSTRAR PRODUCTOS
 const mostrarProductos = () => {
   let arrMostrarProduc = [];
@@ -312,21 +309,23 @@ const mostrarProductos = () => {
   contenedorProductos.innerHTML = "";   //contenedorProductos: div que contiene todos los subDiv de Productos
 
   arrMostrarProduc.forEach((producto, index) => {
+    const colorFondo = (index % 2) ? "colorFondo" : "bg-light"; //Operador Ternario
     //desestructuramos el objeto
     const {descripcion, precioFinal, stock, iva, rubro, precioCosto, utilidad } = producto;
     let divProductosContenedor = document.createElement("div");
     // divProductosContenedor.classList.add("col-12", "col-sm-6","mt-0", "border", "border-2", "p-3", "shadow", "shadow-md");
-    divProductosContenedor.classList.add("row", "mt-0", "border", "border-2", "p-3", "shadow", "shadow-md");
+    divProductosContenedor.classList.add("row", "mt-0", "border", "border-2", "p-3", "shadow", "shadow-md", colorFondo);
+ 
     divProductosContenedor.innerHTML = `
-    <div class="col-12 col-sm-6 border p-2 mt-2 mb-2">
+    <div class="col-12 col-sm-6 border p-2 mt-2 mb-2 ">
       <p class="mb-0"><strong>Producto: ${descripcion}</strong></p>
-      <p class="mb-0">Precio: ${precioFinal}</p>
+      <p class="mb-0">Precio Venta: <strong>$${formatearNumero(precioFinal)}</strong></p>
       <p class="mb-0">Stock: ${stock}</p>
     </div>
     <div class="col-12 col-sm-6 border p-2 mt-2 mb-2">
-    <p class="mb-0">Precio Costo: ${precioCosto}</p>
-    <p class="mb-0">Utilidad: ${utilidad}</p>
-    <p class="mb-0">Iva %: ${iva}</p>
+    <p class="mb-0">Precio Costo: $${formatearNumero(precioCosto)}</p>
+    <p class="mb-0">Utilidad: ${formatearNumero(utilidad)}</p>
+    <p class="mb-0">Iva %: ${formatearNumero(iva)}</p>
     <p class="mb-0">Rubro Id.: ${rubro}</p>
   </div>
   `;
