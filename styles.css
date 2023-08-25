@@ -15,3 +15,11 @@
 .colorFondo {
   background-color: antiquewhite;
 }
+
+/* Carrusel para tabletas y dispositivos móviles */
+@media (max-width: 991px) {
+  .prod-2da-col {
+    display: none;
+    /* Ajusta ancho max para tabletas y dispositivos móviles */
+  }
+}

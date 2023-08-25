@@ -317,12 +317,12 @@ const mostrarProductos = () => {
     divProductosContenedor.classList.add("row", "mt-0", "border", "border-2", "p-3", "shadow", "shadow-md", colorFondo);
  
     divProductosContenedor.innerHTML = `
-    <div class="col-12 col-sm-6 border p-2 mt-2 mb-2 ">
+    <div class="col-12 col-sm-6 border p-2 mt-2 mb-2">
       <p class="mb-0"><strong>Producto: ${descripcion}</strong></p>
       <p class="mb-0">Precio Venta: <strong>$${formatearNumero(precioFinal)}</strong></p>
       <p class="mb-0">Stock: ${stock}</p>
     </div>
-    <div class="col-12 col-sm-6 border p-2 mt-2 mb-2">
+    <div class="col-12 col-sm-6 border p-2 mt-2 mb-2 prod-2da-col">
     <p class="mb-0">Precio Costo: $${formatearNumero(precioCosto)}</p>
     <p class="mb-0">Utilidad: ${formatearNumero(utilidad)}</p>
     <p class="mb-0">Iva %: ${formatearNumero(iva)}</p>
