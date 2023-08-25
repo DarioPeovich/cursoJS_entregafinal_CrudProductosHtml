@@ -15,18 +15,20 @@
 </head>
 
 <body>
-    <div class="container text-center justify-content-center">
-        <h1 class="bg-warning text-white p-3 display-4 mt-5">CRUD de Productos</h1>
-        <!-- <div class="row mt-5 ">
+    <header>
+        <div class="container text-center justify-content-center">
+            <h1 class="bg-warning text-white p-3 display-4 mt-5">CRUD de Productos</h1>
+            <!-- <div class="row mt-5 ">
             <p>Selecione una Opcion</p>
         </div> -->
-    </div>
-
-    <div class="container mt-5 border shadow p-4">
-        <h2 id="h2Form">Agregar Producto</h2>
-        <form id="formAgregarModif">
-            <!-- Se retira el input id. xq no se necesita  -->
-            <!-- <div class="form-group row">
+        </div>
+    </header>
+    <main>
+        <div class="container mt-5 border shadow p-4">
+            <h2 id="h2Form">Agregar Producto</h2>
+            <form id="formAgregarModif">
+                <!-- Se retira el input id. xq no se necesita  -->
+                <!-- <div class="form-group row">
                 <label for="prod_id" class="col-sm-2 col-form-label">Producto Id.:</label>
                 <div class="col-sm-10">
                     <input type="text" readonly class="form-control" id="prod_id"
@@ -34,95 +36,54 @@
                 </div>
             </div> -->
 
-            <div class="form-group row">
-                <label for="prod_descripcion" class="col-sm-2 col-form-label">Descripcion Producto:</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="prod_descripcion" placeholder="">
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="prod_preciocosto" class="col-sm-2 col-form-label">Precio de Costo:</label>
-                <div class="col-sm-10">
-                    <input type="number" step="any" class="form-control" id="prod_preciocosto" placeholder="">
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="prod_utilidad" class="col-sm-2 col-form-label">Utilidad:</label>
-                <div class="col-sm-10">
-                    <input type="number" step="any" class="form-control" id="prod_utilidad" placeholder="">
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="prod_iva" class="col-sm-2 col-form-label">Iva:</label>
-                <div class="col-sm-10">
-                    <input type="number" step="any" class="form-control" id="prod_iva" placeholder="">
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="prod_preciofinal" class="col-sm-2 col-form-label">Precio Final:</label>
-                <div class="col-sm-10">
-                    <input type="number" readonly class="form-control" id="prod_preciofinal"
-                        placeholder="El precio Final se calculara automaticamente a medida que se completen los datos anteriores">
-                </div>
-            </div>
-
-
-            <div class="form-group row">
-                <label for="prod_stock" class="col-sm-2 col-form-label">Stock:</label>
-                <div class="col-sm-10">
-                    <input type="number" class="form-control" id="prod_stock" placeholder="">
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label" for="prod_rubro">Rubro:</label>
-                <div class="col-sm-10">
-                    <select class="form-select" id="prod_rubro">
-                        <option selected>Rubros...</option>
-                        <option value="1">Almacén</option>
-                        <option value="2">Carnicería</option>
-                        <option value="3">Panaderia</option>
-                        <option value="4">General</option>
-                    </select>
-                </div>
-            </div>
-
-            <button id="btnsubmit" type="submit" class="btn btn-primary mt-2">Agregar</button>
-            <button id="btncancelar" type="reset" class="btn btn-secondary mt-2">Cancelar</button>
-        </form>
-    </div>
-
-    <!-- Form de busqueda y filtrado  -->
-    <form id="formFiltrar" role="search">
-        <div class="container mt-2 border p-2">
-            <p class="bg-secondary text-white ">Filtrar Productos. (Las búsquedas por distintos items se combinan)</p>
-            <div class="container mt-2 border shadow p-4" id="formBuscarPorDesc">
                 <div class="form-group row">
-                    <label for="buscarProdDescrip" class="col-sm-2 col-form-label">Por Descripción</label>
-                    <input id="buscarProdDescrip" class="form-control me-2" type="text"
-                        placeholder="Ingrese la descripcion del producto a buscar">
-                </div>
-            </div>
-            <div class="container mt-2 border shadow p-4" id="formBuscarPorPrecio">
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Entre Precios</label>
-                    <div class="col-sm-2">
-                        <input id="buscarProdPrecio1" step="any" class="form-control" type="number"
-                            placeholder="Precio mínimo">
-                    </div>
-                    <div class="col-sm-2">
-                        <input id="buscarProdPrecio2" step="any" class="form-control" type="number"
-                            placeholder="Precio máximo">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label" for="rubro_filtrar">Rubro:</label>
+                    <label for="prod_descripcion" class="col-sm-2 col-form-label">Descripcion Producto:</label>
                     <div class="col-sm-10">
-                        <select class="form-select" id="rubro_filtrar">
+                        <input type="text" class="form-control" id="prod_descripcion" placeholder="">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="prod_preciocosto" class="col-sm-2 col-form-label">Precio de Costo:</label>
+                    <div class="col-sm-10">
+                        <input type="number" step="any" class="form-control" id="prod_preciocosto" placeholder="">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="prod_utilidad" class="col-sm-2 col-form-label">Utilidad:</label>
+                    <div class="col-sm-10">
+                        <input type="number" step="any" class="form-control" id="prod_utilidad" placeholder="">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="prod_iva" class="col-sm-2 col-form-label">Iva:</label>
+                    <div class="col-sm-10">
+                        <input type="number" step="any" class="form-control" id="prod_iva" placeholder="">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="prod_preciofinal" class="col-sm-2 col-form-label">Precio Final:</label>
+                    <div class="col-sm-10">
+                        <input type="number" readonly class="form-control" id="prod_preciofinal"
+                            placeholder="El precio Final se calculara automaticamente a medida que se completen los datos anteriores">
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <label for="prod_stock" class="col-sm-2 col-form-label">Stock:</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control" id="prod_stock" placeholder="">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" for="prod_rubro">Rubro:</label>
+                    <div class="col-sm-10">
+                        <select class="form-select" id="prod_rubro">
                             <option selected>Rubros...</option>
                             <option value="1">Almacén</option>
                             <option value="2">Carnicería</option>
@@ -131,57 +92,102 @@
                         </select>
                     </div>
                 </div>
-            </div>
-            <div class="d-flex justify-content-end mt-2">
-                <!-- <button id="btnFiltrar" type="button" class="btn btn-primary m-2">Buscar</button> -->
-                <button id="btnreset" type="reset" class="btn btn-secondary m-2">Reset</button>
-            </div>
-        </div>
-    </form>
 
-
-    <!-- Form para Ordenar  -->
-    <section class="container mt-3 border shadow p-4">
-        <div class="row">
-            <form id="formSort">
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label" for="formSort">Ordernar por:</label>
-                    <div class="col-sm-10">
-                        <select class="form-select" id="selectSort">
-                            <option selected>Ordenar...</option>
-                            <option value="1">Descripcion</option>
-                            <option value="2">Menor Precio</option>
-                            <option value="3">Mayor Precio</option>
-                            <option value="4">Rubro</option>
-                        </select>
-                    </div>
-                </div>
+                <button id="btnsubmit" type="submit" class="btn btn-primary mt-2">Agregar</button>
+                <button id="btncancelar" type="reset" class="btn btn-secondary mt-2">Cancelar</button>
             </form>
         </div>
-        <!-- Select ordenar x Rubro -->
-<!-- borrar 23/08/23 -->
-        <!-- <form id="formSortRubro">
-                <div class="row form-group mt-3">
-                    <label class="col-sm-2 ">Selecione el Rubro para ordenar:</label>
-                    <div class="col-sm-10">
-                        <select class="form-select" id="selectSortRubro">
-                            <option selected>Rubros...</option>
-                            <option value="1">Almacén</option>
-                            <option value="2">Carnicería</option>
-                            <option value="3">Panaderia</option>
-                            <option value="4">General</option>
 
-                        </select>
+        <!-- Form de busqueda y filtrado  -->
+        <form id="formFiltrar" role="search">
+            <div class="container mt-5 border p-2">
+                <p class="bg-secondary text-white ">Filtrar Productos. (Las búsquedas por distintos items se combinan)
+                </p>
+                <div class="container mt-2 border shadow p-4" id="formBuscarPorDesc">
+                    <div class="form-group row">
+                        <label for="buscarProdDescrip" class="col-sm-2 col-form-label">Por Descripción</label>
+                        <input id="buscarProdDescrip" class="form-control me-2" type="text"
+                            placeholder="Ingrese la descripcion del producto a buscar">
                     </div>
                 </div>
-        </form> -->
-    </section>
-    <!-- Div base utilizado para mostrar los Productos -->
-    <div class="container mt-5 texto-div-productos" id="contenedorProductos">
+                <div class="container mt-2 border shadow p-4" id="formBuscarPorPrecio">
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Entre Precios</label>
+                        <div class="col-sm-2">
+                            <input id="buscarProdPrecio1" step="any" class="form-control" type="number"
+                                placeholder="Precio mínimo">
+                        </div>
+                        <div class="col-sm-2">
+                            <input id="buscarProdPrecio2" step="any" class="form-control" type="number"
+                                placeholder="Precio máximo">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label" for="rubro_filtrar">Rubro:</label>
+                        <div class="col-sm-10">
+                            <select class="form-select" id="rubro_filtrar">
+                                <option selected>Rubros...</option>
+                                <option value="1">Almacén</option>
+                                <option value="2">Carnicería</option>
+                                <option value="3">Panaderia</option>
+                                <option value="4">General</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end mt-2">
+                    <!-- <button id="btnFiltrar" type="button" class="btn btn-primary m-2">Buscar</button> -->
+                    <button id="btnreset" type="reset" class="btn btn-secondary m-2">Reset</button>
+                </div>
+            </div>
+        </form>
 
 
-    </div>
+        <!-- Form para Ordenar  -->
+        <section class="container mt-3 border shadow p-4">
+            <div class="row">
+                <form id="formSort">
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label" for="formSort">Ordernar por:</label>
+                        <div class="col-sm-10">
+                            <select class="form-select" id="selectSort">
+                                <option selected>Ordenar...</option>
+                                <option value="1">Descripcion</option>
+                                <option value="2">Menor Precio</option>
+                                <option value="3">Mayor Precio</option>
+                                <option value="4">Rubro</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <!-- Div base utilizado para mostrar los Productos -->
+        <h2 class="container mt-5 text-center text-white bg-secondary">Productos</h2>
+        <div class="container mt-1 texto-div-productos" id="contenedorProductos">
+            
+        </div>
+    </main>
 
+    <footer class="container footer border shadow mt-5 bg-warning text-white">
+        <div class="row mt-5">
+          <div class="col-12 col-sm-3 ">
+            <span class="footer-titulo">Dario Peovich</span>
+            <span class="d-block">Tucuman #. Vedia (b)</span>
+            <span class="d-block">Telefonos: 023644518076</span>
+            <span class="d-block">eMail: dariofmpeovich@gmail.com</span>
+          </div>
+    
+          <div class="col12 col-sm-4 ">
+            <span class="pt-3 pt-sm-0 footer-titulo">Informacion General </span>
+            <p> Simulador CRUD de productos, utilizando fetch para acceder a
+                 un archivo .JSON y cargar en la primera simulacion los datos
+                al localStore.
+
+            </p>
+          </div>
+        </div>
+      </footer>
     <!-- fin prueba formulario -->
     <!-- Enlazar los archivos JavaScript de Bootstrap (jQuery primero, luego Popper.js y por último Bootstrap) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

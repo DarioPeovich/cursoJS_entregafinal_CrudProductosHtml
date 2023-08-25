@@ -36,7 +36,6 @@ let arr_productosFiltrados = [];  //Se utiliza para las funciones de Filtrado
 
 //Funcion para almacenar al array arrProductos en el localStore
 const guardarArrayLocalStore = () => {
-  console.log(arrProductos);
   if (arrProductos.length > 0) {
     localStorage.setItem("arrProductos", JSON.stringify(arrProductos));
   }
@@ -46,7 +45,6 @@ const guardarArrayLocalStore = () => {
 //Funcion para levantar arrProductos del localStore
 const getArrayLocalStore = () => {
   arrProductos = localStorage.getItem("arrProductos");
-  // console.log("arrProductos (getArrayLocalStore):" + arrProductos);
   if (arrProductos === null || arrProductos === "") {
     return false;
   } else {
@@ -59,7 +57,6 @@ const getArrayLocalStore = () => {
 
 //FUNCIONES UTILIZADAS EN EL FORM AGREGAR/MODIFICAR
 prod_preciocosto.oninput = () => {
-  console.log(prod_preciocosto.value);
   prod_preciofinal.value = precioVta(prod_preciocosto.value, prod_utilidad.value, prod_iva.value);
 }
 
@@ -93,7 +90,7 @@ formAgregarModif.onsubmit = (event) => {
     arrProductos[index].precioFinal = parseFloat(prod_preciofinal.value);
     arrProductos[index].stock = parseFloat(prod_stock.value);
     arrProductos[index].rubro = parseInt(prod_rubro.value);
-
+ add
     //Aviso de edicion exitosa
     Toastify({
       text: "Producto editado exitosamente...",
@@ -119,8 +116,6 @@ formAgregarModif.onsubmit = (event) => {
       }
     }).showToast();
   }
-
-  console.log(...arrProductos);
 
   formAgregarModif.reset();// Se Resetea los valores del formulario
   guardarArrayLocalStore();
@@ -225,16 +220,17 @@ btnreset.onclick = () => {    //Boton de Filtros
   //buscarProdDescrip.value = "";
   mostrarProductos();
 }
+
 selectSort.oninput = () => {
-  const opcionSort = parseInt(selectSort.value);
-  sortArray(arrProductos, opcionSort);
+  // const opcionSort = parseInt(selectSort.value);
+  //sortArray(arrProductos, opcionSort);
   mostrarProductos();
 }
-
-
 // FUNCION ORDENAR
 function sortArray(par_arrProductos, par_OrdenId) {
   let resultado = false;
+  //let arrMostrarProduc = [];
+
   if (par_OrdenId >= 1 && par_OrdenId <= 4) {
     switch (par_OrdenId) {
       case 1:
@@ -294,15 +290,11 @@ function sortArray(par_arrProductos, par_OrdenId) {
         })
         resultado = true;
         break;
-
-
-
     }
   } else {
-    alert("El ordenamiento del array está seteado en una opcion no contemplada.")
     return false
   }
-}
+}//Fin Funcion Ordenar
 // **FIN** FUNCIONES DE BUSQUEDA Y FILTRO PRODUCTOS. 
 
 //INICIO FUNCIONES UTILIZADAS EN LOS DIV DE MOSTRAR PRODUCTOS
@@ -313,23 +305,38 @@ const mostrarProductos = () => {
   } else {
     arrMostrarProduc = [...arrProductos];
   }
+  //Se ordena el array segun el Select Sort
+  const opcionSort = parseInt(selectSort.value);
+  sortArray(arrMostrarProduc, opcionSort);
   // Borramos el html para poner el array actualizado
   contenedorProductos.innerHTML = "";   //contenedorProductos: div que contiene todos los subDiv de Productos
 
   arrMostrarProduc.forEach((producto, index) => {
+    //desestructuramos el objeto
+    const {descripcion, precioFinal, stock, iva, rubro, precioCosto, utilidad } = producto;
     let divProductosContenedor = document.createElement("div");
-    divProductosContenedor.classList.add("mt-0", "border", "border-2", "p-3", "shadow", "shadow-md");
+    // divProductosContenedor.classList.add("col-12", "col-sm-6","mt-0", "border", "border-2", "p-3", "shadow", "shadow-md");
+    divProductosContenedor.classList.add("row", "mt-0", "border", "border-2", "p-3", "shadow", "shadow-md");
     divProductosContenedor.innerHTML = `
-    <p class="mb-0">Producto: ${producto.descripcion}</p>
-    <p class="mb-0">Precio: ${producto.precioFinal}</p>
-    <p class="mb-0">Stock: ${producto.stock}</p>
+    <div class="col-12 col-sm-6 border p-2 mt-2 mb-2">
+      <p class="mb-0"><strong>Producto: ${descripcion}</strong></p>
+      <p class="mb-0">Precio: ${precioFinal}</p>
+      <p class="mb-0">Stock: ${stock}</p>
+    </div>
+    <div class="col-12 col-sm-6 border p-2 mt-2 mb-2">
+    <p class="mb-0">Precio Costo: ${precioCosto}</p>
+    <p class="mb-0">Utilidad: ${utilidad}</p>
+    <p class="mb-0">Iva %: ${iva}</p>
+    <p class="mb-0">Rubro Id.: ${rubro}</p>
+  </div>
   `;
+  let divBtnContenedor = document.createElement("div");
+  divBtnContenedor.classList.add("mt-1", "mb-3", "border-bottom", "pb-1");
     //A continuacion del Div, se anexa el boton para ELIMINAR el producto
     let btnEliminar = document.createElement("button");
     btnEliminar.classList.add("btn", "btn-danger");
     btnEliminar.innerHTML = "Eliminar";
-    divProductosContenedor.appendChild(btnEliminar);
-
+    divBtnContenedor.appendChild(btnEliminar);
     btnEliminar.onclick = () => {
       Swal.fire({
         title: '¿Está seguro de eliminar el Producto?',
@@ -359,16 +366,16 @@ const mostrarProductos = () => {
     let btnEditar = document.createElement("button");
     btnEditar.classList.add("btn", "btn-info", "ms-2");
     btnEditar.innerText = "Editar";
-    divProductosContenedor.appendChild(btnEditar);
-
+    divBtnContenedor.appendChild(btnEditar);
     btnEditar.onclick = () => {
       editarProducto(index);
     }
-
     //fin boton Editar
 
     //Se agrega el Div a el HTML  
     contenedorProductos.appendChild(divProductosContenedor);
+    contenedorProductos.appendChild(divBtnContenedor);
+    
   })
 
 }
@@ -410,7 +417,6 @@ function eliminarProducto(indice) {
 const getArchJsonProductos = async () => {
   const resp = await fetch("./db/productos.json");
   const data = await resp.json();
-  console.log(data);
   arrProductos = data;
   guardarArrayLocalStore();
   mostrarProductos();
