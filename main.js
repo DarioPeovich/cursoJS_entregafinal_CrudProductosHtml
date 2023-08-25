@@ -90,7 +90,7 @@ formAgregarModif.onsubmit = (event) => {
     arrProductos[index].precioFinal = parseFloat(prod_preciofinal.value);
     arrProductos[index].stock = parseFloat(prod_stock.value);
     arrProductos[index].rubro = parseInt(prod_rubro.value);
- add
+ 
     //Aviso de edicion exitosa
     Toastify({
       text: "Producto editado exitosamente...",
