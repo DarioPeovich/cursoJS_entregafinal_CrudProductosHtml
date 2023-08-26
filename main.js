@@ -22,14 +22,11 @@ const buscarProdPrecio1 = document.querySelector("#buscarProdPrecio1");
 const buscarProdPrecio2 = document.querySelector("#buscarProdPrecio2");
 const rubro_filtrar = document.querySelector("#rubro_filtrar");
 
-// const btnFiltrar = document.querySelector("#btnFiltrar");
 const btnreset = document.querySelector("#btnreset");
 const selectSort = document.querySelector("#selectSort");
 
-
-
+//Declaracion de variables 
 let modoEdicion = false;
-
 let productoEditar;   //Va a contener el Objeto Producto a editar
 let arrProductos = [];
 let arr_productosFiltrados = [];  //Se utiliza para las funciones de Filtrado
@@ -49,7 +46,6 @@ const getArrayLocalStore = () => {
     return false;
   } else {
     arrProductos = JSON.parse(arrProductos);
-
     return true;
   }
 }
@@ -90,7 +86,7 @@ formAgregarModif.onsubmit = (event) => {
     arrProductos[index].precioFinal = parseFloat(prod_preciofinal.value);
     arrProductos[index].stock = parseFloat(prod_stock.value);
     arrProductos[index].rubro = parseInt(prod_rubro.value);
- 
+
     //Aviso de edicion exitosa
     Toastify({
       text: "Producto editado exitosamente...",
@@ -165,7 +161,7 @@ function busquedaGrupal() {
   let auxPrecio2 = parseFloat(buscarProdPrecio2.value);
   isNaN(auxPrecio1) && (auxPrecio1 = 0);  //Operador Logico Simple
   isNaN(auxPrecio2) && (auxPrecio2 = 0);  //Operador Logico Simple
- 
+
 
   //Se copia el array arrProductos para que los filtros no alteren la informacion
   arr_productosFiltrados = [...arrProductos];
@@ -212,13 +208,13 @@ function busquedaGrupal() {
 
 btnreset.onclick = () => {    //Boton de Filtros
   arr_productosFiltrados = [];
-  //buscarProdDescrip.value = "";
   mostrarProductos();
 }
 
 selectSort.oninput = () => {
   mostrarProductos();
 }
+
 // FUNCION ORDENAR
 function sortArray(par_arrProductos, par_OrdenId) {
   let resultado = false;
@@ -292,7 +288,7 @@ function formatearNumero(numero) {
 
   // Formatear con separadores de miles y 2 decimales
   return numero.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  
+
 }
 //INICIO FUNCIONES UTILIZADAS EN LOS DIV DE MOSTRAR PRODUCTOS
 const mostrarProductos = () => {
@@ -303,19 +299,16 @@ const mostrarProductos = () => {
     arrMostrarProduc = [...arrProductos];
   }
   //Se ordena el array segun el Select Sort
-  const opcionSort = parseInt(selectSort.value);
-  sortArray(arrMostrarProduc, opcionSort);
+  sortArray(arrMostrarProduc, parseInt(selectSort.value));
   // Borramos el html para poner el array actualizado
   contenedorProductos.innerHTML = "";   //contenedorProductos: div que contiene todos los subDiv de Productos
 
   arrMostrarProduc.forEach((producto, index) => {
     const colorFondo = (index % 2) ? "colorFondo" : "bg-light"; //Operador Ternario
     //desestructuramos el objeto
-    const {id, descripcion, precioFinal, stock, iva, rubro, precioCosto, utilidad } = producto;
+    const { id, descripcion, precioFinal, stock, iva, rubro, precioCosto, utilidad } = producto;
     let divProductosContenedor = document.createElement("div");
-    // divProductosContenedor.classList.add("col-12", "col-sm-6","mt-0", "border", "border-2", "p-3", "shadow", "shadow-md");
     divProductosContenedor.classList.add("row", "mt-0", "border", "border-2", "p-3", "shadow", "shadow-md", colorFondo);
- 
     divProductosContenedor.innerHTML = `
     <div class="col-12 col-sm-6 border p-2 mt-2 mb-2">
       <p class="mb-0"><strong>Producto: ${descripcion}</strong></p>
@@ -330,8 +323,9 @@ const mostrarProductos = () => {
     <p class="mb-0">Rubro Id.: ${rubro}</p>
   </div>
   `;
-  let divBtnContenedor = document.createElement("div");
-  divBtnContenedor.classList.add("mt-1", "mb-3", "border-bottom", "pb-1");
+    let divBtnContenedor = document.createElement("div");   //Contenedor de los botones Elimanar y editar
+    divBtnContenedor.classList.add("mt-1", "mb-3", "border-bottom", "pb-1");
+
     //A continuacion del Div, se anexa el boton para ELIMINAR el producto
     let btnEliminar = document.createElement("button");
     btnEliminar.classList.add("btn", "btn-danger");
@@ -359,8 +353,7 @@ const mostrarProductos = () => {
         }
       })
 
-    };
-    //Fin Boton Eliminar
+    }  //Fin Boton Eliminar
 
     // Agregamos el botón editar
     let btnEditar = document.createElement("button");
@@ -372,22 +365,17 @@ const mostrarProductos = () => {
     }
     //fin boton Editar
 
-    //Se agrega el Div a el HTML  
+    //Se agrega los Div´s al HTML  
     contenedorProductos.appendChild(divProductosContenedor);
     contenedorProductos.appendChild(divBtnContenedor);
-    
-  })
 
+  })
 }
 
 // Función de editar PRODUCTO del btnEditar de los Div de cada Producto
 const editarProducto = (id) => {
-  
-  // let indexAux
-  //indexAux = arrProductos.findIndex((producto => producto.id === arrProductosInclude[indexInclude].id))
-  // if (arr_productosFiltrados.length > 0) {
-    index = arrProductos.findIndex((producto => producto.id === id))
-  // } 
+
+  index = arrProductos.findIndex((producto => producto.id === id))
 
   productoEditar = arrProductos[index];
   // prod_id.value = productoEditar.id;
@@ -398,7 +386,7 @@ const editarProducto = (id) => {
   prod_preciofinal.value = productoEditar.precioFinal;
   prod_stock.value = productoEditar.stock;
   prod_rubro.value = productoEditar.rubro;
-  //let precio
+  
   modoEdicion = true;
   h2Element.innerText = "Modificacion del Producto"
   btnSubmit.innerText = "Grabar";
@@ -424,12 +412,8 @@ const getArchJsonProductos = async () => {
 }
 
 //Codigo que ses ejecuta al iniciar el Html
-const bArrProdVacio = !getArrayLocalStore();  //Levanta el array del localStore
-
-if (bArrProdVacio) {
-  getArchJsonProductos()
-} else {
+if (getArrayLocalStore()) {
   mostrarProductos();
+} else {
+  getArchJsonProductos()
 }
-
-
