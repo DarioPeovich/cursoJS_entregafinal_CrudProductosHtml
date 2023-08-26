@@ -311,7 +311,7 @@ const mostrarProductos = () => {
   arrMostrarProduc.forEach((producto, index) => {
     const colorFondo = (index % 2) ? "colorFondo" : "bg-light"; //Operador Ternario
     //desestructuramos el objeto
-    const {descripcion, precioFinal, stock, iva, rubro, precioCosto, utilidad } = producto;
+    const {id, descripcion, precioFinal, stock, iva, rubro, precioCosto, utilidad } = producto;
     let divProductosContenedor = document.createElement("div");
     // divProductosContenedor.classList.add("col-12", "col-sm-6","mt-0", "border", "border-2", "p-3", "shadow", "shadow-md");
     divProductosContenedor.classList.add("row", "mt-0", "border", "border-2", "p-3", "shadow", "shadow-md", colorFondo);
@@ -321,6 +321,7 @@ const mostrarProductos = () => {
       <p class="mb-0"><strong>Producto: ${descripcion}</strong></p>
       <p class="mb-0">Precio Venta: <strong>$${formatearNumero(precioFinal)}</strong></p>
       <p class="mb-0">Stock: ${stock}</p>
+      <p class="mb-0">Stock: ${id}</p>
     </div>
     <div class="col-12 col-sm-6 border p-2 mt-2 mb-2 prod-2da-col">
     <p class="mb-0">Precio Costo: $${formatearNumero(precioCosto)}</p>
@@ -367,7 +368,7 @@ const mostrarProductos = () => {
     btnEditar.innerText = "Editar";
     divBtnContenedor.appendChild(btnEditar);
     btnEditar.onclick = () => {
-      editarProducto(index);
+      editarProducto(id);
     }
     //fin boton Editar
 
@@ -380,15 +381,15 @@ const mostrarProductos = () => {
 }
 
 // Función de editar PRODUCTO del btnEditar de los Div de cada Producto
-const editarProducto = (index) => {
+const editarProducto = (id) => {
+  
   // let indexAux
   //indexAux = arrProductos.findIndex((producto => producto.id === arrProductosInclude[indexInclude].id))
-  if (arr_productosFiltrados.length > 0) {
-    index = arrProductos.findIndex((producto => producto.id === arr_productosFiltrados[index].id))
-  }
+  // if (arr_productosFiltrados.length > 0) {
+    index = arrProductos.findIndex((producto => producto.id === id))
+  // } 
 
   productoEditar = arrProductos[index];
-
   // prod_id.value = productoEditar.id;
   prod_descripcion.value = productoEditar.descripcion;
   prod_preciocosto.value = productoEditar.precioCosto;
@@ -402,7 +403,7 @@ const editarProducto = (index) => {
   h2Element.innerText = "Modificacion del Producto"
   btnSubmit.innerText = "Grabar";
   prod_descripcion.focus();
-};
+}
 
 //Funcion eliminarProducto de los div de cada Producto
 function eliminarProducto(indice) {
