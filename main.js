@@ -101,9 +101,8 @@ formAgregarModif.onsubmit = (event) => {
     h2Element.innerText = "Agregar Producto"
     btnSubmit.innerText = "Agregar";
   } else {  //Nuevo
-    //arrProductos.push
-
     arrProductos.push(new Producto(prod_descripcion.value, prod_preciocosto.value, prod_utilidad.value, prod_iva.value, prod_rubro.value, prod_stock.value));
+    busquedaGrupal();
     Toastify({
       text: "Se agrego el producto en forma exitosa...",
       className: "info",
